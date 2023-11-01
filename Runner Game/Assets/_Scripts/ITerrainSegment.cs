@@ -16,7 +16,7 @@ public interface ITerrainSegment
 	/// <param name="translationDirection"></param>
 	public void TranslateTerrain(float deltaDistance, Vector3 translationDirection);
 
-	public bool IsWithinTargetThreshold(Vector3 target, float threshold);
+	public bool IsWithinTargetThreshold(Vector3 pivot, Vector3 target, float threshold);
 	
 	/// <summary>
 	/// Gets the difference between the terrain's <see cref="Transform"/> position and the <see cref="StartTransform"/> position

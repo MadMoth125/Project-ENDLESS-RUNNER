@@ -31,10 +31,10 @@ public class TerrainSegment : MonoBehaviour, ITerrainSegment
 		_objectPanner.TranslateInDirection(deltaDistance, translationDirection);
 	}
 
-	public bool IsWithinTargetThreshold(Vector3 target, float threshold)
+	public bool IsWithinTargetThreshold(Vector3 pivot, Vector3 target, float threshold)
 	{
 		_objectPanner.SetTargetLocation(target);
-		return _objectPanner.IsWithinTargetThreshold(threshold);
+		return _objectPanner.IsWithinTargetThreshold(pivot, threshold);
 	}
 
 	public Vector3 GetTerrainOffsetPosition()

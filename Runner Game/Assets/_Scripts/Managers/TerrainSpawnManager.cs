@@ -18,10 +18,15 @@ public class TerrainSpawnManager : MonoBehaviour
 	private Transform spawnTransformReference;
 	private Vector3 _locationTarget;
 	
+	[Header("Spawn Settings")]
 	[SerializeField]
 	[Tooltip("The number of terrain prefabs to spawn at the start of the game.")]
 	private int spawnBuffer = 3;
-
+	[SerializeField]
+	private float terrainMovementSpeed = 16f;
+	[SerializeField]
+	private float terrainTargetMeetThreshold = 1f;
+	
 	private TerrainSegment _nextSegment;
 	private bool _initialSpawningComplete = false;
 	
@@ -45,13 +50,16 @@ public class TerrainSpawnManager : MonoBehaviour
 			
 			foreach (var segment in _instancedTerrain)
 			{
-				if (segment.IsWithinTargetThreshold(_locationTarget, 1))
+				if (segment.IsWithinTargetThreshold(
+					    segment.EndTransform.position,
+					    _locationTarget - segment.GetTerrainOffsetPosition(),
+					    terrainTargetMeetThreshold))
 				{
 					removedItems.Add(segment);
 				}
 				else
 				{
-					segment.TranslateTerrain(64f, Vector3.back);
+					segment.TranslateTerrain(terrainMovementSpeed, Vector3.back);
 				}
 			}
 			
@@ -59,7 +67,6 @@ public class TerrainSpawnManager : MonoBehaviour
 			{
 				_instancedTerrain.Remove(removedItem);
 				removedItem.TerrainTransform.gameObject.SetActive(false);
-				// Destroy(removedItem.TerrainTransform.gameObject);
 			}
 			
 			_instancedTerrain.TrimExcess();
@@ -70,7 +77,7 @@ public class TerrainSpawnManager : MonoBehaviour
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
-		Gizmos.DrawSphere(_locationTarget, 5f);
+		Gizmos.DrawSphere(_locationTarget, 1f);
 	}
 	
 	///<summary>

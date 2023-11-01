@@ -21,13 +21,12 @@ public class ObjectPanner : MonoBehaviour
 		transform.position += direction * lastKnownSpeed;
 	}
 	
-	public bool IsWithinTargetThreshold(float threshold)
+	public bool IsWithinTargetThreshold(Vector3 pivot, float threshold)
 	{
-		Debug.Log(threshold * lastKnownSpeed);
-		return Vector3.Distance(transform.position, locationTarget) < Mathf.Max(threshold, threshold * lastKnownSpeed);
+		return Vector3.Distance(pivot, locationTarget) < Mathf.Max(threshold, threshold * lastKnownSpeed);
 	}
 	
-	public bool IsWithinTargetThreshold(float threshold, Axis axis)
+	private bool IsWithinTargetThreshold(float threshold, Axis axis)
 	{
 		switch (axis)
 		{
