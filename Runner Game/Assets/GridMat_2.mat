@@ -57,7 +57,7 @@ Material:
     m_Floats:
     - _Auto_PBR: 1
     - _Edge_Blend: 1
-    - _Move_with_Object: 0
+    - _Move_with_Object: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Size: 1

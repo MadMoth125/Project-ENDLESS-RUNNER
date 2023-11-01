@@ -38,7 +38,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo_Texture:
-        m_Texture: {fileID: 2800000, guid: 81c078e07a3828a42885510e3d5369a9, type: 3}
+        m_Texture: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -57,7 +57,7 @@ Material:
     m_Floats:
     - _Auto_PBR: 1
     - _Edge_Blend: 1
-    - _Move_with_Object: 0
+    - _Move_with_Object: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Size: 1
