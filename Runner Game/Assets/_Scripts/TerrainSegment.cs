@@ -26,15 +26,23 @@ public class TerrainSegment : MonoBehaviour, ITerrainSegment
 		_objectPanner = GetComponent<ObjectPanner>();
 	}
 
-	public void TranslateTerrain(float deltaDistance, Vector3 translationDirection)
+	private void Update()
 	{
-		_objectPanner.TranslateInDirection(deltaDistance, translationDirection);
+		// acts as a failsafe to prevent the terrain from going too far
+		if (transform.position.z < -100f)
+		{
+			gameObject.SetActive(false);
+		}
 	}
 
-	public bool IsWithinTargetThreshold(Vector3 pivot, Vector3 target, float threshold)
+	public void TranslateTerrain(float distance, Vector3 translationDirection)
 	{
-		_objectPanner.SetTargetLocation(target);
-		return _objectPanner.IsWithinTargetThreshold(pivot, threshold);
+		_objectPanner.TranslateInDirection(distance, translationDirection);
+	}
+
+	public bool IsWithinTargetThreshold(Vector3 objectPosition, Vector3 targetPosition, float threshold)
+	{
+		return Vector3.Distance(objectPosition, targetPosition) < threshold;
 	}
 
 	public Vector3 GetTerrainOffsetPosition()

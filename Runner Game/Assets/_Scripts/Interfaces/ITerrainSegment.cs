@@ -12,11 +12,11 @@ public interface ITerrainSegment
 	/// <summary>
 	/// Meant to be called when the terrain needs to be translated in a direction
 	/// </summary>
-	/// <param name="deltaDistance"></param>
+	/// <param name="distance"></param>
 	/// <param name="translationDirection"></param>
-	public void TranslateTerrain(float deltaDistance, Vector3 translationDirection);
+	public void TranslateTerrain(float distance, Vector3 translationDirection);
 
-	public bool IsWithinTargetThreshold(Vector3 pivot, Vector3 target, float threshold);
+	public bool IsWithinTargetThreshold(Vector3 objectPosition, Vector3 targetPosition, float threshold);
 	
 	/// <summary>
 	/// Gets the difference between the terrain's <see cref="Transform"/> position and the <see cref="StartTransform"/> position

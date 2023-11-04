@@ -9,7 +9,7 @@ public class TerrainSelection_SO : ScriptableObject
 	[SerializeField]
 	private List<TerrainSegment> terrainSegments = new List<TerrainSegment>();
 	
-	public TerrainSegment GetNextTerrain()
+	public ITerrainSegment GetNextTerrain()
 	{
 		if (terrainSegments.Count == 0)
 		{

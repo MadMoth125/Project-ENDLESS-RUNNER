@@ -15,3 +15,4 @@ MonoBehaviour:
   terrainSegments:
   - {fileID: 1227407429132614146, guid: d6152330e11f5084f957841d5a527f49, type: 3}
   - {fileID: 7696293397261696926, guid: 01540219cc1b95a45b5b075c32eb0ae2, type: 3}
+  - {fileID: 3172739079388402580, guid: 188c64a1d4c57f34f877670acce01c77, type: 3}

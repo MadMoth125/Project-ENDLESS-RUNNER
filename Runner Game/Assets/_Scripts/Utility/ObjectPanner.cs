@@ -5,28 +5,21 @@ using UnityEngine;
 
 public class ObjectPanner : MonoBehaviour
 {
-	[HideInInspector]
-	public Vector3 locationTarget;
-	[HideInInspector]
-	public float lastKnownSpeed;
+	public Vector3 LocationTarget { get; private set; }
 	
-	public void SetTargetLocation(Vector3 targetLocation)
-	{
-		locationTarget = targetLocation;
-	}
-
 	public void TranslateInDirection(float speed, Vector3 direction)
 	{
-		lastKnownSpeed = Time.deltaTime * speed;
-		transform.position += direction * lastKnownSpeed;
+		transform.position += direction * speed;
 	}
 	
-	public bool IsWithinTargetThreshold(Vector3 pivot, float threshold)
-	{
-		return Vector3.Distance(pivot, locationTarget) < Mathf.Max(threshold, threshold * lastKnownSpeed);
-	}
+	public bool IsWithinTargetThreshold(Vector3 objectPosition, Vector3 targetPosition, float threshold)
+    {
+	    LocationTarget = targetPosition;
+	    
+        return Vector3.Distance(objectPosition, targetPosition) < threshold;
+    }
 	
-	private bool IsWithinTargetThreshold(float threshold, Axis axis)
+	/*private bool IsWithinTargetThreshold(float threshold, Axis axis)
 	{
 		switch (axis)
 		{
@@ -38,7 +31,7 @@ public class ObjectPanner : MonoBehaviour
 			case Axis.Z:
 				return Mathf.Abs(transform.position.z - locationTarget.z) < threshold * lastKnownSpeed;
 		}
-	}
+	}*/
 	
 	public enum Axis
 	{

@@ -17,6 +17,6 @@ public class DistanceFromTarget : MonoBehaviour
 
 	private void Update()
 	{
-		_textMeshPro.text = $"Distance: {Mathf.RoundToInt(Vector3.Distance(transform.position, _objectPanner.locationTarget))}";
+		// _textMeshPro.text = $"Distance: {Mathf.RoundToInt(Vector3.Distance(transform.position, _objectPanner.locationTarget))}";
 	}
 }

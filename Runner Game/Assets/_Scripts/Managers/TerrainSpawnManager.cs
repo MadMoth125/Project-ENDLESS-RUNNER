@@ -7,8 +7,8 @@ using UnityEngine.Assertions.Must;
 public class TerrainSpawnManager : MonoBehaviour
 {
 	[Header("Terrain Components")]
-	public List<TerrainSegment> terrainPrefabs = new List<TerrainSegment>();
-	private List<ITerrainSegment> _instancedTerrain = new List<ITerrainSegment>();
+	public List<TerrainSegment> terrainPrefabs = new List<TerrainSegment>(); // list of all terrain prefabs to be spawned
+	private List<ITerrainSegment> _instancedTerrain = new List<ITerrainSegment>(); // list of all terrain instances that have been spawned
 	
 	[Space(10)]
 	[Header("Spawn Settings")]
@@ -24,12 +24,19 @@ public class TerrainSpawnManager : MonoBehaviour
 	private int spawnBuffer = 3;
 	[SerializeField]
 	private float terrainMovementSpeed = 16f;
+	private float _movementSpeedMultiplier = 1f; // used to slow down the terrain when the player dies
 	[SerializeField]
 	private float terrainTargetMeetThreshold = 1f;
 	
-	private TerrainSegment _nextSegment;
+	private TerrainSegment _nextSegment; // the next terrain segment to be spawned
 	private bool _initialSpawningComplete = false;
-	
+
+	#region Unity Methods
+
+	private void OnEnable() => GameManager.Instance.OnPlayerDie += OnPlayerDie;
+
+	private void OnDisable() => GameManager.Instance.OnPlayerDie -= OnPlayerDie;
+
 	private void Start()
 	{
 		if (terrainPrefabs.Count < 1)
@@ -50,16 +57,18 @@ public class TerrainSpawnManager : MonoBehaviour
 			
 			foreach (var segment in _instancedTerrain)
 			{
+				float thresholdBuffer = terrainMovementSpeed * Time.deltaTime;
+				
 				if (segment.IsWithinTargetThreshold(
 					    segment.EndTransform.position,
 					    _locationTarget - segment.GetTerrainOffsetPosition(),
-					    terrainTargetMeetThreshold))
+					    terrainTargetMeetThreshold + thresholdBuffer))
 				{
 					removedItems.Add(segment);
 				}
 				else
 				{
-					segment.TranslateTerrain(terrainMovementSpeed, Vector3.back);
+					segment.TranslateTerrain((terrainMovementSpeed * _movementSpeedMultiplier) * Time.deltaTime, Vector3.back);
 				}
 			}
 			
@@ -79,6 +88,23 @@ public class TerrainSpawnManager : MonoBehaviour
 		Gizmos.color = Color.red;
 		Gizmos.DrawSphere(_locationTarget, 1f);
 	}
+
+	#endregion
+	
+	private void OnPlayerDie() => StartCoroutine(SlowTerrainMovement());
+
+	private IEnumerator SlowTerrainMovement()
+	{
+		while (_movementSpeedMultiplier > 0f)
+		{
+			// slow down the terrain movement
+			_movementSpeedMultiplier -= Time.deltaTime;
+			yield return null;
+		}
+		
+		// disable the script when the terrain has stopped moving
+		enabled = false;
+	} 
 	
 	///<summary>
 	/// Initializes starting terrain segments based on specified spawn buffer.

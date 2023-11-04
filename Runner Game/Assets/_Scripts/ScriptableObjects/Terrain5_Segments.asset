@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11ec8d80601fd8a4dac8bd88abd48b92, type: 3}
+  m_Name: Terrain5_Segments
+  m_EditorClassIdentifier: 
+  terrainSegments:
+  - {fileID: 4382547639101381779, guid: d40b2824ee2410d44bd1082b78d934ad, type: 3}
+  - {fileID: 6715285709732031061, guid: d52949d4f2be15544a538e48f80eaf12, type: 3}
