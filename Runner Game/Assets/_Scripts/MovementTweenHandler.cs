@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
+[Obsolete("This class is no longer used. All tweening is now handled in the PlayerController class.")]
 public class MovementTweenHandler : MonoBehaviour
 {
 	private TweenCallback _onComplete;

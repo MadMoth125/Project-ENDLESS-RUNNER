@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using Utilities;
+using Sequence = DG.Tweening.Sequence;
 
 public class PlayerController : MonoBehaviour
 {
@@ -249,6 +251,11 @@ public class PlayerController : MonoBehaviour
 		_previousLocationY = transform.position.y;
 		
 		_jumpSequence = DOTween.Sequence().Pause();
+		
+		if (_isCrouching)
+		{
+			CheckCrouch();
+		}
 		
 		_jumpSequence.Append(transform.DOMoveY( // jump up
 				_previousLocationY + jumpHeight,

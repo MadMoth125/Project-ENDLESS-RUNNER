@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 using Utilities;
 
@@ -26,16 +23,21 @@ public class PlayerCollisionDetect : MonoBehaviour
 	{
 		if (other.GetComponent<Hazard>())
 		{
+			// call our DoOnce when we hit a hazard
 			_onPlayerHitHazardDoOnce.Do(PlayerHitHazard);
 		}
 
 		void PlayerHitHazard()
 		{
+			// a direction going away from the hazard
 			Vector3 hitDirection = -(other.transform.position - transform.position).normalized;
+			
+			// random force values to add to the player's rigidbody
 			float randomUpwardForce = UnityEngine.Random.Range(0.5f, 3f);
 			float randomForwardForce = UnityEngine.Random.Range(0.25f, 2f);
+			float randomTorqueForce = UnityEngine.Random.Range(-3, 4);
 			
-			// pause any active tweens (defined by the playerController)
+			// pause/stop any active tweens (defined by the playerController)
 			_playerController.StopAllTweens();
 			
 			// disable the player controller
@@ -51,10 +53,10 @@ public class PlayerCollisionDetect : MonoBehaviour
 				 hitDirection * 2f,
 				 ForceMode.Impulse);
 			_rigidbody.AddTorque(
-				Vector3.right * randomForwardForce,
+				Vector3.right * randomTorqueForce,
 				ForceMode.Impulse);
 
-			// invoke the event that the player has hit a hazard
+			// invoke the event
 			OnPlayerHitHazard?.Invoke();
 		}
 	}
