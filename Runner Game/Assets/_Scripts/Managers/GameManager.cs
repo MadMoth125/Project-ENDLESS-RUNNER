@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 	
 	private PlayerCollisionDetect _playerCollisionDetect;
 	
+	public bool IsGameActive { get; private set; } = true;
+	
 	#region Unity Methods
 
 	private void Awake()
@@ -85,6 +87,7 @@ public class GameManager : MonoBehaviour
 	
 	private void PlayerHitHazard()
 	{
+		IsGameActive = false;
 		OnPlayerDie?.Invoke();
 	}
 	

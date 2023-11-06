@@ -51,35 +51,51 @@ public class TerrainSpawnManager : MonoBehaviour
 
 	private void Update()
 	{
+		// only move the terrain if the initial spawning is complete
 		if (_initialSpawningComplete)
 		{
+			// create a list to store the terrain segments that will be removed
 			List<ITerrainSegment> removedItems = new List<ITerrainSegment>();
 			
+			// loop through all the terrain segments that have been spawned
 			foreach (var segment in _instancedTerrain)
 			{
+				// calculate the threshold buffer based on the terrain movement speed and deltaTime
 				float thresholdBuffer = terrainMovementSpeed * Time.deltaTime;
 				
-				if (segment.IsWithinTargetThreshold(
+				if (segment.IsWithinTargetThreshold( // check if the terrain segment is within the target threshold
 					    segment.EndTransform.position,
 					    _locationTarget - segment.GetTerrainOffsetPosition(),
 					    terrainTargetMeetThreshold + thresholdBuffer))
 				{
+					// if true, add it to the list of segments to be removed
 					removedItems.Add(segment);
 				}
 				else
 				{
+					// else, move the terrain segment
 					segment.TranslateTerrain((terrainMovementSpeed * _movementSpeedMultiplier) * Time.deltaTime, Vector3.back);
 				}
 			}
 			
+			// loop through the list of terrain segments to be removed
 			foreach (var removedItem in removedItems)
 			{
+				// remove the terrain segment from the list of spawned terrain segments
 				_instancedTerrain.Remove(removedItem);
+				
+				// "destroy" the terrain segment
 				removedItem.TerrainTransform.gameObject.SetActive(false);
 			}
 			
 			_instancedTerrain.TrimExcess();
 			removedItems.Clear();
+
+			// only speed up the terrain if the player is alive and the speed multiplier is less than 2x
+			if (_movementSpeedMultiplier <= 2f && GameManager.Instance.IsGameActive)
+			{
+				SpeedUpTerrainMovement();
+			}
 		}
 	}
 
@@ -92,6 +108,11 @@ public class TerrainSpawnManager : MonoBehaviour
 	#endregion
 	
 	private void OnPlayerDie() => StartCoroutine(SlowTerrainMovement());
+
+	private void SpeedUpTerrainMovement()
+	{
+		_movementSpeedMultiplier += Time.deltaTime * 0.01f;
+	}
 
 	private IEnumerator SlowTerrainMovement()
 	{

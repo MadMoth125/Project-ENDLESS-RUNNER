@@ -50,7 +50,7 @@ public class PlayerCollisionDetect : MonoBehaviour
 			_rigidbody.AddForce(
 				(Vector3.up * randomUpwardForce +
 				 Vector3.forward * randomForwardForce) +
-				 hitDirection * 2f,
+				 hitDirection,
 				 ForceMode.Impulse);
 			_rigidbody.AddTorque(
 				Vector3.right * randomTorqueForce,

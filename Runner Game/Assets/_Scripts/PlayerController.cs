@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
 	[Tooltip("The duration of the movement animation when moving between positions.")]
 	public float movementTweenSpeed = 0.3f;
 	private int _currentPositionIndex = 1; // the index of the current position in the movementPositions array
+	private Tween _movementTween;
 	
 	[Space]
 	public float crouchTweenInDuration = 1f;
@@ -127,7 +128,7 @@ public class PlayerController : MonoBehaviour
 		
 		_currentPositionIndex += indexDirection;
 		
-		transform.DOMoveX(
+		_movementTween = transform.DOMoveX(
 			movementPositions[_currentPositionIndex].position.x,
 			movementTweenSpeed)
 			.OnComplete(() => _isMovingHorizontal = false);
@@ -279,6 +280,7 @@ public class PlayerController : MonoBehaviour
 		// _crouchSequenceIn?.Kill();
 		// _crouchSequenceOut?.Kill();
 		_jumpSequence?.Kill();
+		_movementTween?.Kill();
 	}
 	
 	#endregion
